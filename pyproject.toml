@@ -5,6 +5,16 @@ description = "AK lab 4"
 requires-python = ">=3.13"
 dependencies = []
 
+[project.scripts]
+run_code = "src.run_code:main"
+
+[tool.uv]
+package = true
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src*"]
+
 [dependency-groups]
 dev = [
     "mypy>=1.19.1",

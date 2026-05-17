@@ -13,6 +13,7 @@ GOLDEN_ROOT = ROOT / "golden"
 sys.path.insert(0, str(PROJECT_ROOT))
 
 from src.translator import assemble, write_debug  # noqa: E402
+from src.run_code import run_source  # noqa: E402
 
 machine = importlib.import_module("src.machine")
 
@@ -85,3 +86,27 @@ def test_start_label_is_required() -> None:
 
     with pytest.raises(ValueError, match="Missing required _start label"):
         assemble(source)
+
+
+def test_run_code_assembles_and_runs_source(tmp_path: Path) -> None:
+    source_path = tmp_path / "cat.asm"
+    input_path = tmp_path / "input.txt"
+    output_path = tmp_path / "output.txt"
+    trace_path = tmp_path / "trace.log"
+
+    source_path.write_text(_read(GOLDEN_ROOT / "cat" / "source.asm"), encoding="utf-8")
+    input_path.write_text("abc", encoding="utf-8")
+
+    output = run_source(
+        source_path,
+        input_path,
+        output_path,
+        trace_path,
+        1000,
+        False,
+    )
+
+    assert output == "abc"
+    assert output_path.read_text(encoding="utf-8") == "abc"
+    assert source_path.with_suffix(".bin").exists()
+    assert "IN[0] -> AC=97" in trace_path.read_text(encoding="utf-8")
