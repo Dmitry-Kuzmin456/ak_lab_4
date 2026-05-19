@@ -641,4 +641,4 @@ uv run python -m src.machine prob1.bin --superscalar --trace trace.log
 | `port` | Специальные инструкции `IN port`, `OUT port`; поддержан порт `0`. |
 | `cstr` | Null-terminated строки в памяти данных, `.cstr`, `OUT_CSTR`. |
 | `prob1` | Реализован Euler #4 на asm, результат выводится через output stream. |
-| `superscalar` | Флаг `--superscalar`, параллельные пары `LD + MUL`, `LD + CMP`, forwarding и trace `parallel=1`. |
+| `superscalar` | Флаг `--superscalar`, параллельные пары `LD + MUL`, `LD + CMP`
